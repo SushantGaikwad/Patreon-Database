@@ -24,7 +24,7 @@ app.post(
 );
 
 app.get("/users",validator.isValidToken,(req,res)=>{
-  console.log("This is users");
+  console.log("This is users Middleware");
 })
 
 
