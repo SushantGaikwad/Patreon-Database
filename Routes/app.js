@@ -15,5 +15,17 @@ app.post(
   userController.SignUp
 );
 
+app.post(
+  "/login",
+  body("email").isEmail(),
+  body("password").isLength({ min: 8 }),
+  validator.ValidationResult,
+  userController.Login
+);
+
+app.get("/users",validator.isValidToken,(req,res)=>{
+  console.log("This is users");
+})
+
 
 module.exports = app;
