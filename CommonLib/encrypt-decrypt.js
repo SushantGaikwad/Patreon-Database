@@ -16,3 +16,5 @@ module.exports = {
     encryptPassword,
     decryptPassword
 }
+
+// bscryptjs
