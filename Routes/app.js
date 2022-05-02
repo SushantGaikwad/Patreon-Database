@@ -1,12 +1,9 @@
-const { request } = require("express");
 const express = require("express");
 const userController = require("../Controllers/userController");
 const validator = require("../Middlewares/validation");
 const passport = require('../Authentication/googleLogin')
 const cookieSession = require("cookie-session");
 const fbPassport = require('../Authentication/facebookLogin')
-const facebookStrategy = require('passport-facebook').Strategy
-
 const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
 const userModel = require('../Models/user.model')
@@ -19,9 +16,11 @@ app.use(cookieSession({
   keys: ['key1', 'key2']
 }))
 
-app.use(passport.initialize())
 app.use(fbPassport.initialize())
+
 app.use(fbPassport.session())
+app.use(passport.initialize())
+
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
 
 
@@ -117,8 +116,8 @@ fbPassport.authenticate('facebook', {
           failureRedirect : '/failed'
       }));
 
-      app.get('/',(req,res) => {
-        res.render("index")
+      app.get('/profile',(req,res) => {
+        res.send("index")
     })
 
 
