@@ -28,6 +28,7 @@ async function SignUp(request,response, next){
     })
 }
  } catch (error) {
+     console.log("This is Signup Error",request.body);
      response.status(500).json(error);
  }
  

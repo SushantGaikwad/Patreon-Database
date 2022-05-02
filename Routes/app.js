@@ -11,20 +11,9 @@ const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
+app.use(express.json())
 
-
-app.use(cookieSession({
-  name: 'session-name',
-  keys: ['key1', 'key2']
-}))
-
-app.use(passport.initialize())
-app.use(fbPassport.initialize())
-app.use(fbPassport.session())
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
-
-
-
 
 
 app.get("/",(req,res)=>{
@@ -50,6 +39,17 @@ app.post(
 app.get("/users",validator.isValidToken,(req,res)=>{
   res.send("This is User")
 })
+
+
+
+app.use(cookieSession({
+  name: 'session-name',
+  keys: ['key1', 'key2']
+}))
+
+app.use(passport.initialize())
+app.use(fbPassport.initialize())
+app.use(fbPassport.session())
 
 app.get('/failed', (req,res) =>{
     res.send("Some error occured while login to google")
