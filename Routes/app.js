@@ -1,4 +1,4 @@
-const { request } = require("express");
+
 const express = require("express");
 const userController = require("../Controllers/userController");
 const validator = require("../Middlewares/validation");
@@ -6,6 +6,10 @@ const { body } = require("express-validator");
 const app = express();
 
 app.use(express.json());
+
+app.get("/",(req,res)=>{
+  res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
+})
 
 app.post(
   "/signUp",
@@ -23,7 +27,9 @@ app.post(
   userController.Login
 );
 
-
+app.get("/users",validator.isValidToken,(req,res)=>{
+  res.send("This is User")
+})
 
 
 module.exports = app;
