@@ -1,5 +1,5 @@
 const {validationResult} = require("express-validator");
-const jwtService= require("../commonlib/jwtToken");
+const jwtService= require("../Commonlib/jwtToken");
 
 
 function ValidationResult(req,res,next){
