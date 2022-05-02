@@ -111,23 +111,15 @@ app.get('/google/callback',
 
 app.get('/auth/facebook', fbPassport.authenticate('facebook', { scope : 'email,user_photos' }));
 
-app.get('/facebook/callback',
-fbPassport.authenticate('facebook', {
-          successRedirect : '/profile',
-          failureRedirect : '/failed'
-      }));
-
-      app.get('/',(req,res) => {
-        res.render("index")
-    })
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/failed' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log(req.user);
+    res.redirect('/success');
+  });
 
 
-app.get('/profile',(req,res) =>{
-  res.send("You are a valid user")
-})
 
-app.get('/failed',(req,res) =>{
-  res.send('you are a not valid user')
-})
 
 module.exports = app;
