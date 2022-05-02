@@ -5,7 +5,7 @@ const validator = require("../Middlewares/validation");
 const passport = require('../Authentication/googleLogin')
 const cookieSession = require("cookie-session");
 const fbPassport = require('../Authentication/facebookLogin')
-const facebookStrategy = require('passport-facebook').Strategy
+
 
 const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
