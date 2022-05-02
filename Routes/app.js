@@ -7,14 +7,7 @@ const cookieSession = require("cookie-session");
 const fbPassport = require('../Authentication/facebookLogin')
 const cors = require("cors");
 
-app.use(cors());
 
-let allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', "*");
-  res.header('Access-Control-Allow-Headers', "*");
-  next();
-}
-app.use(allowCrossDomain);
 
 const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
@@ -24,6 +17,15 @@ app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
 
+
+app.use(cors());
+
+let allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Headers', "*");
+  next();
+}
+app.use(allowCrossDomain);
 
 app.get("/",(req,res)=>{
   res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
