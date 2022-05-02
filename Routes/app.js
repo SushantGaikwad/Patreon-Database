@@ -3,8 +3,8 @@ const express = require("express");
 const userController = require("../Controllers/userController");
 const validator = require("../Middlewares/validation");
 const passport = require('../Authentication/googleLogin')
-const session = require('express-session')
-const fbPassport = require('passport')
+const cookieSession = require("cookie-session");
+const fbPassport = require('../Authentication/facebookLogin')
 const facebookStrategy = require('passport-facebook').Strategy
 
 const JWTService = require('../CommonLib/jwtToken')
@@ -12,25 +12,20 @@ const { body } = require("express-validator");
 const userModel = require('../Models/user.model')
 const encryptDecrypt = require('../EncryptDecrypt/encrypt-decrypt')
 const app = express();
+
+
+app.use(cookieSession({
+  name: 'session-name',
+  keys: ['key1', 'key2']
+}))
+
 app.use(passport.initialize())
 app.use(fbPassport.initialize())
 app.use(fbPassport.session())
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
 
 
-app.use(session)
-app.use(express.json());
-app.set("view engine","ejs")
-app.get('/',(req,res) => {
-  res.render("index")
-})
+
 
 
 app.post(
@@ -113,40 +108,11 @@ app.get('/google/callback',
     
 )
 
-passport.use(new facebookStrategy({
- 
-  // pull in our app id and secret from our auth.js file
-  clientID        : "1175933806565543",
-  clientSecret    : "7a52fbc6271511c2af715f79365e7ce6",
-  callbackURL     : "http://localhost:9999/auth/facebook/callback",
-  // profileFields   : ['id','displayName','name','gender','picture.type(large)','email']
 
-},// facebook will send back the token and profile
-function(token, refreshToken, profile, done) {
-  
-  console.log(profile)
-  return done(null,profile)
-}));
-
-// passport.serializeUser(function(user, done) {
-//   done(null, user);
-// });
-
-// // used to deserialize the user
-// passport.deserializeUser(function(id, done) {
-//   return done(null,user)
-// })
-
-// app.get('/profile',(req,res) => {
-//   res.send("you are authenticated")
-// })
-// app.get('/',(req,res) => {
-//   res.send("Something happen try Again")
-// })
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email,user_photos' }));
+app.get('/auth/facebook', fbPassport.authenticate('facebook', { scope : 'email,user_photos' }));
 
 app.get('/facebook/callback',
-      passport.authenticate('facebook', {
+fbPassport.authenticate('facebook', {
           successRedirect : '/profile',
           failureRedirect : '/failed'
       }));
@@ -154,11 +120,7 @@ app.get('/facebook/callback',
       app.get('/',(req,res) => {
         res.render("index")
     })
-// app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email,user_photos' }));
-// app.get('/facebook/callback',passport.authenticate('facebook',{
-//   sucessRedirect:'/profile',
-//   failiureRedirect:'/'
-// }))
+
 
 app.get('/profile',(req,res) =>{
   res.send("You are a valid user")
