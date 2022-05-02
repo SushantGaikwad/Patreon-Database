@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/",(req,res)=>{
-  res.send("This is Dashboard"/n ,"1. /signUp"/n,"2. /login");
+  res.send("This is Dashboard" , '\n', "1. /SignUp",'\n',"2. /login");
 })
 
 app.post(
