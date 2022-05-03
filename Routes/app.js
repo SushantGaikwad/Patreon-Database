@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
-
+app.use(cors());
 
 app.use(
   cors({
@@ -29,7 +29,7 @@ app.use(
    
   })
 );
-
+app.use(cors());
 
 app.get("/",(req,res)=>{
   res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
