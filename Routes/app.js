@@ -13,6 +13,8 @@ const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
+
+const CLIENT_URL = "http://localhost:3000/";
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
@@ -71,7 +73,8 @@ app.get('/failed', (req,res) =>{
 })
 
 app.get('/login/success', async (req,res) =>{
-    res.json(req.user);
+    console.log(req.user);
+    res.json(req.user._json.name);
   // if (req.user) {
   //   let email = req.user.email
   //   const userDetail = await userModel.findOne({email})
@@ -125,7 +128,7 @@ app.get('/google', passport.authenticate('google', {
 
 app.get('/google/callback',
     passport.authenticate('google', {
-      successRedirect: "http://localhost:3000/",
+      successRedirect: CLIENT_URL,
       failureRedirect: '/failed',
     })   
 )
