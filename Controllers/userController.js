@@ -3,7 +3,6 @@ const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
 
-
 async function SignUp(request,response, next){
     
  try {
@@ -17,6 +16,7 @@ async function SignUp(request,response, next){
                 })
         
     }else{
+
 
     let encryptPassword = EncryptDecrypt.encryptPassword(userDetails.password);
     userDetails.password = encryptPassword;
@@ -72,12 +72,15 @@ async function Login(request,response, next){
     }   
    }
 
-   async function Logout(request,reapoas){
-
-   }
+   async function signOut(req, res, next) {
+    const token = req.body.token;
+    await TokenModel.deleteOne({ token });
+    res.status(200).json({ status: "Success", message: "Token deleted successfully" });
+}
 
 
 module.exports = {
     SignUp,
-    Login
+    Login,
+    signOut
 }

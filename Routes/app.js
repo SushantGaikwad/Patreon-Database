@@ -209,5 +209,7 @@ app.get('/auth/facebook/callback',
 
 
 
+  // app.put('/signOut', authController.signOut);
+
 
 module.exports = app;
