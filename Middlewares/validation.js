@@ -1,5 +1,5 @@
 const {validationResult} = require("express-validator");
-// const jwtService= require("../commonlib/jwtToken");
+const jwtService= require("../CommonLib/jwtToken");
 
 
 function ValidationResult(req,res,next){
@@ -10,21 +10,20 @@ function ValidationResult(req,res,next){
       next();
 }
 
-// function isValidToken(req,res,next){
+function isValidToken(req,res,next){
 
-//     try {
-//         let token = req.headers.token;
-//         let response = jwtService.verifyToken(token);
-//         console.log(response);
-//         next();
-//     } catch (error) {
-//         res.status(500).json(error);
-//     }
+    try {
+        let token = req.headers.token;
+        jwtService.verifyToken(token);
+        next();
+    } catch (error) {
+        res.status(500).json(error);
+    }
 
    
-// }
+}
 
 module.exports = {
     ValidationResult,
-    // isValidToken
+    isValidToken
 }
