@@ -25,7 +25,7 @@ app.use(
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
     "Access-Control-Allow-Creadentials" : true,
-    "Access-Control-Allow-Origin" : true
+    "Access-Control-Allow-Origin" : "http://localhost:3000"
    
   })
 );
