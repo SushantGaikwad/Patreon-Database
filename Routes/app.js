@@ -71,49 +71,49 @@ app.get('/failed', (req,res) =>{
 })
 
 app.get('/login/success', async (req,res) =>{
-
-  if (req.user) {
-    let email = req.user.email
-    const userDetail = await userModel.findOne({email})
-     console.log(userDetail)
-    if(userDetail){
+    res.json("Sushant");
+  // if (req.user) {
+  //   let email = req.user.email
+  //   const userDetail = await userModel.findOne({email})
+  //    console.log(userDetail)
+  //   if(userDetail){
      
-      let obj = {
-        firstName :userDetail.firstName,
-        email
-      }
+  //     let obj = {
+  //       firstName :userDetail.firstName,
+  //       email
+  //     }
       
-      let JWTtoken = JWTService.GenerateToken(obj)
+  //     let JWTtoken = JWTService.GenerateToken(obj)
    
-      res.status(200).json(
-        {
-          message:"Success Login",
-          token : JWTtoken
+  //     res.status(200).json(
+  //       {
+  //         message:"Success Login",
+  //         token : JWTtoken
 
-        }
-      )
+  //       }
+  //     )
 
-    }
-    else{
-      let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
-      let userDetailObj = {
-        name: req.user.given_name,
-        email: req.user.email,
-        password: encryptedPassword,
-        profilePic: req.user._json.picture
+  //   }
+  //   else{
+  //     let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
+  //     let userDetailObj = {
+  //       name: req.user.given_name,
+  //       email: req.user.email,
+  //       password: encryptedPassword,
+  //       profilePic: req.user._json.picture
 
-      }
-      await userModel.insertMany([userDetailObj])
-      delete userDetailObj.password
+  //     }
+  //     await userModel.insertMany([userDetailObj])
+  //     delete userDetailObj.password
    
-      let JWTtoken = JWTService.GenerateToken(userDetailObj)
-      res.status(200).json({
-        message:"Registration Success",
-        token:JWTtoken
-      });
-    }
+  //     let JWTtoken = JWTService.GenerateToken(userDetailObj)
+  //     res.status(200).json({
+  //       message:"Registration Success",
+  //       token:JWTtoken
+  //     });
+  //   }
 
-  }
+  // }
 })
 
 
