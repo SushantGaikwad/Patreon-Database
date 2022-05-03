@@ -71,7 +71,7 @@ app.get('/failed', (req,res) =>{
 })
 
 app.get('/login/success', async (req,res) =>{
-    res.json("Sushant");
+    res.json(req.user);
   // if (req.user) {
   //   let email = req.user.email
   //   const userDetail = await userModel.findOne({email})
