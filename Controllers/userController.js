@@ -1,4 +1,5 @@
 const UserModel = require("../Models/user.model");
+const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
 
@@ -21,13 +22,17 @@ async function SignUp(request,response, next){
     userDetails.password = encryptPassword;
     userDetails.profilePic = "https://c8.patreon.com/2/200/73417037";
     let UserResponse = await UserModel.insertMany([userDetails]);
-    console.log(UserResponse);
-    response.status(200).json({
-        status: "Registration Successfull",
-        payload: UserResponse
-    })
+    delete userDetails.password;
+    let JWTtoken = jwtService.GenerateToken(userDetails);
+
+   await TokenModel.insertMany([{userId:UserResponse[0]._id, token:JWTtoken}]);
+
+       response.status(200).json({
+       status: "Registration Successfull",
+       token : JWTtoken
+})
 }
- } catch (error) {
+}catch (error) {
      console.log("This is Signup Error",request.body);
      response.status(500).json(error);
  }
@@ -47,10 +52,13 @@ async function Login(request,response, next){
             "name" : UserRes.name,
             "email" : UserRes.email 
         }
-        let token = jwtService.GenerateToken(userData);
+        let JWTtoken = jwtService.GenerateToken(userData);
+
+        let tokenRes = await TokenModel.insertMany([{userId:UserRes._id, token:JWTtoken}]);
+
            response.status(200).json({
            status: "Login Successfull",
-           token : token
+           token : JWTtoken
        })
         }
         else{
@@ -61,8 +69,11 @@ async function Login(request,response, next){
     }
     } catch (error) {
         response.status(500).json(error);
-    }
-   
+    }   
+   }
+
+   async function Logout(request,reapoas){
+
    }
 
 
