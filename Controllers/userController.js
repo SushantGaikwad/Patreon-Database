@@ -72,15 +72,15 @@ async function Login(request,response, next){
     }   
    }
 
-   async function signOut(req, res, next) {
-    const token = req.body.token;
-    await TokenModel.deleteOne({ token });
-    res.status(200).json({ status: "Success", message: "Token deleted successfully" });
-}
+//    async function signOut(req, res, next) {
+//     const token = req.body.token;
+//     await TokenModel.deleteOne({ token });
+//     res.status(200).json({ status: "Success", message: "Token deleted successfully" });
+// }
 
 
 module.exports = {
     SignUp,
     Login,
-    signOut
+    
 }
