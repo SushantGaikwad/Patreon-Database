@@ -18,15 +18,15 @@ app.use(express.json())
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
 
 
-app.use(
-  cors({
-    Host:"patreondatabase.herokuapp.com",
-    Origin: "http://localhost:3000",
-    methods: "GET,POST,PUT,DELETE",
-
+// app.use(
+//   cors({
+//     Host:"patreondatabase.herokuapp.com",
+//     Origin: "http://localhost:3000",
+//     methods: "GET,POST,PUT,DELETE",
+ 
    
-  })
-);
+//   })
+// );
 
 
 app.get("/",(req,res)=>{
