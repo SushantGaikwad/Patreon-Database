@@ -24,6 +24,8 @@ app.use(
     Origin: "http://localhost:3000",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
+    "Access-Control-Allow-Credentials": true,
+   
   })
 );
 
