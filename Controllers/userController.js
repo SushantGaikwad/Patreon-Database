@@ -13,6 +13,7 @@ async function SignUp(request,response, next){
     if(UserRes){
    
                 response.json({
+                    status: 201,
                     Message: "This Email Id is Already Present in our Database. Please try Different Email Id"
                 })
         
@@ -28,7 +29,8 @@ async function SignUp(request,response, next){
    await TokenModel.insertMany([{userId:UserResponse[0]._id, token:JWTtoken}]);
 
        response.status(200).json({
-       status: "Registration Successfull",
+       status: 200,
+       message: "Registration Successfull",
        token : JWTtoken
 })
 }

@@ -18,20 +18,15 @@ const CLIENT_URL = "http://localhost:3000/";
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
-app.use(cors());
+
 
 app.use(
   cors({
-    Host:"patreondatabase.herokuapp.com",
     origin: "http://localhost:3000",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
-    "Access-Control-Allow-Creadentials" : true,
-    "Access-Control-Allow-Origin" : "http://localhost:3000"
-   
   })
 );
-app.use(cors());
 
 app.get("/",(req,res)=>{
   res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
@@ -73,50 +68,49 @@ app.get('/failed', (req,res) =>{
 })
 
 app.get('/login/success', async (req,res) =>{
-    console.log("This is Login/Success Route");
-    res.json(req.user); 
-  // if (req.user) {
-  //   let email = req.user.email
-  //   const userDetail = await userModel.findOne({email})
-  //    console.log(userDetail)
-  //   if(userDetail){
+  if (req.user) {
+    let email = req.user.email
+    const userDetail = await userModel.findOne({email})
+     console.log(userDetail)
+    if(userDetail){
      
-  //     let obj = {
-  //       firstName :userDetail.firstName,
-  //       email
-  //     }
+      let obj = {
+        firstName :userDetail.firstName,
+        email
+      }
       
-  //     let JWTtoken = JWTService.GenerateToken(obj)
+      let JWTtoken = JWTService.GenerateToken(obj)
    
-  //     res.status(200).json(
-  //       {
-  //         message:"Success Login",
-  //         token : JWTtoken
+      res.status(200).json(
+        {
+          status : 200,
+          message:"Success Login",
+          token : JWTtoken
 
-  //       }
-  //     )
+        }
+      )
 
-  //   }
-  //   else{
-  //     let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
-  //     let userDetailObj = {
-  //       name: req.user.given_name,
-  //       email: req.user.email,
-  //       password: encryptedPassword,
-  //       profilePic: req.user._json.picture
+    }
+    else{
+      let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
+      let userDetailObj = {
+        name: req.user.given_name,
+        email: req.user.email,
+        password: encryptedPassword,
+        profilePic: req.user._json.picture
 
-  //     }
-  //     await userModel.insertMany([userDetailObj])
-  //     delete userDetailObj.password
+      }
+      await userModel.insertMany([userDetailObj])
+      delete userDetailObj.password
    
-  //     let JWTtoken = JWTService.GenerateToken(userDetailObj)
-  //     res.status(200).json({
-  //       message:"Registration Success",
-  //       token:JWTtoken
-  //     });
-  //   }
+      let JWTtoken = JWTService.GenerateToken(userDetailObj)
+      res.status(200).json({
+        message:"Registration Success",
+        token:JWTtoken
+      });
+    }
 
-  // }
+  }
 })
 
 
