@@ -87,9 +87,5 @@ async function Login(request,response, next){
 
 module.exports = {
     SignUp,
-<<<<<<< HEAD
     signOut
-=======
-    Login
->>>>>>> e19715114dcd0fda234ab8321de418f11c654af2
 }
