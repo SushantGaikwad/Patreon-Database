@@ -76,13 +76,11 @@ async function Login(request,response, next){
         response.status(500).json({Message: "Email Id is Wrong or You are not registered with us"});
     }
     } catch (error) {
-        response.status(500).json(error);
+        response.status(500).json(error)
     }   
    }
 
-   async function Logout(request,reapoas){
-
-   }
+ 
 
 
 module.exports = {
