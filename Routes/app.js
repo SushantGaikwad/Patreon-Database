@@ -73,7 +73,7 @@ app.get('/failed', (req,res) =>{
 })
 
 app.get('/login/success', async (req,res) =>{
-    console.log(req.user);
+    console.log("This is Login/Success Route");
     res.json(req.user); 
   // if (req.user) {
   //   let email = req.user.email
