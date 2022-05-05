@@ -59,6 +59,7 @@ async function Login(request,response, next){
         let tokenRes = await TokenModel.insertMany([{userId:UserRes._id, token:JWTtoken}]);
 
            response.status(200).json({
+               status: 200,
            status: "Login Successfull",
            token : JWTtoken,
            user: UserRes
