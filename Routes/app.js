@@ -56,7 +56,8 @@ app.get("/users",validator.isValidToken,(req,res)=>{
 
 app.use(cookieSession({
   name: 'session-name',
-  keys: ['key1', 'key2']
+  keys: ['Patreon'],
+  maxAge: 60 
 }))
 
 app.use(passport.initialize())
@@ -85,7 +86,8 @@ app.get('/login/success', async (req,res) =>{
         {
           status : 200,
           message:"Success Login",
-          token : JWTtoken
+          token : JWTtoken,
+          user: userDetail
 
         }
       )
@@ -98,7 +100,6 @@ app.get('/login/success', async (req,res) =>{
         email: req.user.email,
         password: encryptedPassword,
         profilePic: req.user._json.picture
-
       }
       await userModel.insertMany([userDetailObj])
       delete userDetailObj.password

@@ -60,7 +60,8 @@ async function Login(request,response, next){
 
            response.status(200).json({
            status: "Login Successfull",
-           token : JWTtoken
+           token : JWTtoken,
+           user: UserRes
        })
         }
         else{
