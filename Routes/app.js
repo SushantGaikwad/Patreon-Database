@@ -14,7 +14,7 @@ const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
 
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = "http://localhost:3000/profile";
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
