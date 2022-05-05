@@ -57,7 +57,7 @@ app.get("/users",validator.isValidToken,(req,res)=>{
 app.use(cookieSession({
   name: 'session-name',
   keys: ['Patreon'],
-  maxAge: 60 
+  maxAge: 24 * 60 * 60 * 100 
 }))
 
 app.use(passport.initialize())
@@ -88,7 +88,6 @@ app.get('/login/success', async (req,res) =>{
           message:"Success Login",
           token : JWTtoken,
           user: userDetail
-
         }
       )
 
@@ -107,7 +106,9 @@ app.get('/login/success', async (req,res) =>{
       let JWTtoken = JWTService.GenerateToken(userDetailObj)
       res.status(200).json({
         message:"Registration Success",
-        token:JWTtoken
+        status : 200,
+        token : JWTtoken,
+        user: userDetail
       });
     }
 
