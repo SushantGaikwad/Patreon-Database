@@ -52,6 +52,9 @@ app.get("/users",validator.isValidToken,(req,res)=>{
   res.send("This is User")
 })
 
+app.post("/post",userController.makePost);
+app.get("/getposts",userController.getAllPost);
+
 
 
 app.use(cookieSession({

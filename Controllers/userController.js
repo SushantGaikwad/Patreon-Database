@@ -2,6 +2,8 @@ const UserModel = require("../Models/user.model");
 const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
+const postModel = require("../Models/post");
+const mongoose = require("mongoose")
 
 
 async function SignUp(request,response, next){
@@ -76,12 +78,58 @@ async function Login(request,response, next){
     }   
    }
 
-   async function Logout(request,reapoas){
+  async function makePost(request,response){
+       
 
+    try{
+        const body = request.body;      
+        const header = request.headers;
+    
+        let obj = {
+            title : body.title,
+            description : body.description,
+            tags : body.tags,
+            userId: mongoose.Types.ObjectId(header.userid)
+        }
+
+        let res = await postModel.insertMany([obj]);
+
+        response.status(200).json({
+            status : "Success",
+            message: "Posted Successfully",
+            post : res
+        })
+    }catch(err){
+        response.status(400).json({
+            status: "Error"
+        })
+
+    }
+ 
+   }
+  async function getAllPost(request,response){
+    try{
+        let userId = request.headers.userid;
+        userId = mongoose.Types.ObjectId(userId);
+
+        let res = await postModel.find({userId:userId});
+        console.log(res);
+        response.status(200).json({
+            status : "Success",
+            posts : res
+        })
+    }catch(err){
+        response.status(400).json({
+            Status: "Error"
+        })
+    }
+       
    }
 
 
 module.exports = {
     SignUp,
-    Login
+    Login,
+    makePost,
+    getAllPost
 }
