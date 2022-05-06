@@ -2,6 +2,8 @@ const UserModel = require("../Models/user.model");
 const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
+const postModel = require("../Models/post");
+const mongoose = require("mongoose")
 
 async function SignUp(request,response, next){
     
@@ -12,6 +14,7 @@ async function SignUp(request,response, next){
     if(UserRes){
    
                 response.json({
+                    status: 201,
                     Message: "This Email Id is Already Present in our Database. Please try Different Email Id"
                 })
         
@@ -28,7 +31,8 @@ async function SignUp(request,response, next){
    await TokenModel.insertMany([{userId:UserResponse[0]._id, token:JWTtoken}]);
 
        response.status(200).json({
-       status: "Registration Successfull",
+       status: 200,
+       message: "Registration Successfull",
        token : JWTtoken
 })
 }
@@ -57,8 +61,10 @@ async function Login(request,response, next){
         let tokenRes = await TokenModel.insertMany([{userId:UserRes._id, token:JWTtoken}]);
 
            response.status(200).json({
+           status: 200,
            status: "Login Successfull",
-           token : JWTtoken
+           token : JWTtoken,
+           user: UserRes
        })
         }
         else{
@@ -72,15 +78,67 @@ async function Login(request,response, next){
     }   
    }
 
-//    async function signOut(req, res, next) {
-//     const token = req.body.token;
-//     await TokenModel.deleteOne({ token });
-//     res.status(200).json({ status: "Success", message: "Token deleted successfully" });
-// }
+  async function makePost(request,response){
+       
+
+    try{
+        const body = request.body;      
+        const header = request.headers;
+    
+        let obj = {
+            title : body.title,
+            description : body.description,
+            tags : body.tags,
+            userId: mongoose.Types.ObjectId(header.userid),
+            timestamp: new Date()
+        }
+
+        let res = await postModel.insertMany([obj]);
+
+        response.status(200).json({
+            status : "Success",
+            message: "Posted Successfully",
+            post : res
+        })
+    }catch(err){
+        response.status(400).json({
+            status: "Error"
+        })
+
+    }
+ 
+   }
+  async function getAllPost(request,response){
+    try{
+        let userId = request.headers.userid;
+        userId = mongoose.Types.ObjectId(userId);
+
+        let res = await postModel.find({userId:userId});
+        console.log(res);
+        response.status(200).json({
+            status : "Success",
+            posts : res
+        })
+    }catch(err){
+        response.status(400).json({
+            Status: "Error"
+        })
+    }
+       
+   }
+
+   async function search(req,res){
+        const search = req.query.q;
+        const response = await UserModel.find({name: {$regex : search, $options: '$i'}});
+        res.send(response);
+   }
+
 
 
 module.exports = {
     SignUp,
     Login,
-    
+    makePost,
+    getAllPost,
+    search
 }

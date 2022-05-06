@@ -1,5 +1,6 @@
 const {validationResult} = require("express-validator");
 const jwtService= require("../CommonLib/jwtToken");
+const TokenModel = require("../Models/token");
 
 
 function ValidationResult(req,res,next){
@@ -14,8 +15,20 @@ function isValidToken(req,res,next){
 
     try {
         let token = req.headers.token;
-        jwtService.verifyToken(token);
-        next();
+        if(token){
+            jwtService.verifyToken(token);
+            let response = TokenModel.findOne({token});
+            if(response){
+                next();
+            }
+            else{
+                res.json({status: "failed", message: "Token is not present is DB"});
+            }
+        }
+        else{
+            res.json({status: "failed", message: "Token is not present in header"});
+        }
+        
     } catch (error) {
         res.status(500).json(error);
     }
