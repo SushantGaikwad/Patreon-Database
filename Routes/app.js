@@ -48,9 +48,7 @@ app.post(
   userController.Login
 );
 
-app.get("/users",validator.isValidToken,(req,res)=>{
-  res.send("This is User")
-})
+app.get("/users",userController.search)
 app.post("/post",userController.makePost);
 app.get("/getposts",userController.getAllPost);
 

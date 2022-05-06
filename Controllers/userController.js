@@ -127,6 +127,11 @@ async function Login(request,response, next){
        
    }
 
+   async function search(req,res){
+        const search = req.query.q;
+        const response = await UserModel.find({name: {$regex : search, $options: '$i'}});
+        res.send(response);
+   }
 
 
 
@@ -135,5 +140,5 @@ module.exports = {
     Login,
     makePost,
     getAllPost,
-
+    search
 }
