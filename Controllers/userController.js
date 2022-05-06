@@ -2,6 +2,7 @@ const UserModel = require("../Models/user.model");
 const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
+const postModel = require('../Models/post')
 
 
 async function SignUp(request,response, next){
@@ -80,11 +81,23 @@ async function Login(request,response, next){
     }   
    }
 
- 
+ async function createPost(req,res,next){
+     console.log(req.body)
+     req.body.authorId = mongoose.Types.ObjectId(req.body.authorId)
+     req.body.category = mongoose.Types.ObjectId(req.body.category)
+     let tagArr = []
+     req.body.tags.forEach(ele => {
+        tagArr.push(mongoose.Types.ObjectId(ele))
+     }) 
+     let response = await postModel.insertMany([req.body])
+
+     res.status(200).json(response)
+ }
 
 
 module.exports = {
     SignUp,
     Login,
-    signOut
+    signOut,
+    createPost
 }
