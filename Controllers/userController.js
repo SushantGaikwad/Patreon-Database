@@ -89,7 +89,8 @@ async function Login(request,response, next){
             title : body.title,
             description : body.description,
             tags : body.tags,
-            userId: mongoose.Types.ObjectId(header.userid)
+            userId: mongoose.Types.ObjectId(header.userid),
+            timestamp: new Date()
         }
 
         let res = await postModel.insertMany([obj]);

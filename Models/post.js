@@ -6,6 +6,7 @@ const post = new mongoose.Schema({
     description : {type: String, required: true},
     tags : [{type: String}],
     comments: [{type:mongoose.Types.ObjectId, ref:"comment"}],
+    timestamp :{type: Date}
 })
 
 module.exports = mongoose.model('post',post)
