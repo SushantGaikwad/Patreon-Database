@@ -128,9 +128,12 @@ async function Login(request,response, next){
    }
 
 
+
+
 module.exports = {
     SignUp,
     Login,
     makePost,
-    getAllPost
+    getAllPost,
+
 }
