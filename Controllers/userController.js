@@ -42,7 +42,7 @@ async function SignUp(request,response, next){
 async function signOut(req, res, next) {
     //remove token from DB
     const token = req.body.token;
-    await tokenModel.deleteOne({ token });
+    await TokenModel.deleteOne({ token });
     res.status(200).json({ status: "Success", message: "Token deleted successfully" });
 }
 
@@ -85,5 +85,6 @@ async function Login(request,response, next){
 
 module.exports = {
     SignUp,
+    Login,
     signOut
 }

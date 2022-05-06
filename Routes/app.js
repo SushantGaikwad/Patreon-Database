@@ -1,40 +1,19 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> e19715114dcd0fda234ab8321de418f11c654af2
 const express = require("express");
 const userController = require("../Controllers/userController");
 const validator = require("../Middlewares/validation");
 const passport = require('../Authentication/googleLogin')
 const cookieSession = require("cookie-session");
 const fbPassport = require('../Authentication/facebookLogin')
-<<<<<<< HEAD
-=======
 const cors = require("cors");
 const encryptDecrypt = require("../CommonLib/encrypt-decrypt");
 
 
->>>>>>> e19715114dcd0fda234ab8321de418f11c654af2
 const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
 app.use(express.json())
 
-<<<<<<< HEAD
-
-app.use(cookieSession({
-  name: 'session-name',
-  keys: ['key1', 'key2']
-}))
-
-app.use(fbPassport.initialize())
-
-app.use(fbPassport.session())
-app.use(passport.initialize())
-
-=======
->>>>>>> e19715114dcd0fda234ab8321de418f11c654af2
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
 
 
@@ -63,6 +42,7 @@ app.post(
   body("password").isLength({ min: 8 }),
   validator.ValidationResult,
   userController.SignUp
+  
 );
 
 app.post(
@@ -228,6 +208,7 @@ app.get('/auth/facebook/callback',
   });
 
 
+  app.put('/signOut', userController.signOut);
 
 
 module.exports = app;
