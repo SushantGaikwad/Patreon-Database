@@ -2,12 +2,10 @@ const UserModel = require("../Models/user.model");
 const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
-<<<<<<< HEAD
-const postModel = require('../Models/post')
-=======
+
 const postModel = require("../Models/post");
-const mongoose = require("mongoose")
->>>>>>> ab7218c16bc14ff0568e5683ff2f7ffb503dd01b
+const mongoose = require("mongoose");
+const { response } = require("express");
 
 
 async function SignUp(request,response, next){
@@ -90,20 +88,20 @@ async function Login(request,response, next){
     }   
    }
 
-<<<<<<< HEAD
- async function createPost(req,res,next){
-     console.log(req.body)
-     req.body.authorId = mongoose.Types.ObjectId(req.body.authorId)
-     req.body.category = mongoose.Types.ObjectId(req.body.category)
-     let tagArr = []
-     req.body.tags.forEach(ele => {
-        tagArr.push(mongoose.Types.ObjectId(ele))
-     }) 
-     let response = await postModel.insertMany([req.body])
 
-     res.status(200).json(response)
- }
-=======
+//  async function createPost(req,res,next){
+//      console.log(req.body)
+//      req.body.authorId = mongoose.Types.ObjectId(req.body.authorId)
+//      req.body.category = mongoose.Types.ObjectId(req.body.category)
+//      let tagArr = []
+//      req.body.tags.forEach(ele => {
+//         tagArr.push(mongoose.Types.ObjectId(ele))
+//      }) 
+//      let response = await postModel.insertMany([req.body])
+
+//      res.status(200).json(response)
+//  }
+
   async function makePost(request,response){
        
 
@@ -152,17 +150,30 @@ async function Login(request,response, next){
     }
        
    }
->>>>>>> ab7218c16bc14ff0568e5683ff2f7ffb503dd01b
+   async function getUser(req,res){
+       try {
+           let username = req.body
+           username = mongoose.Types.name
+
+            res = await UserModel.find({username:username})
+           console.log(res)
+           res.status(200).json({
+               status: "Success",
+               posts : res
+           })
+           
+       } catch (error) {
+           console.log("Error")
+           
+       }
+   }
 
 
 module.exports = {
     SignUp,
-    Login,
-<<<<<<< HEAD
     signOut,
-    createPost
-=======
+    Login,
     makePost,
-    getAllPost
->>>>>>> ab7218c16bc14ff0568e5683ff2f7ffb503dd01b
+    getAllPost,
+    getUser
 }
