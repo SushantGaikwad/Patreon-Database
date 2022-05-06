@@ -126,24 +126,12 @@ async function Login(request,response, next){
     }
        
    }
-   async function getUserName(req,res){
-       res.send('sushant')
-    // try {
-    //     let username = req.query
-    //     username = mongoose.Types.name
 
-    //      res = await UserModel.find({username:username})
-    //     console.log(res)
-    //     res.status(200).json({
-    //         status: "Success",
-    //         posts : res
-    //     })
-        
-    // } catch (error) {
-    //     console.log("Error")
-        
-    // }
+
+function getAllusers(req,res){
+    res.send(req.query.q);
 }
+
 
 
 
@@ -153,6 +141,5 @@ module.exports = {
     Login,
     makePost,
     getAllPost,
-    getUserName
-
+    getAllusers
 }

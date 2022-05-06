@@ -54,6 +54,7 @@ app.get("/users",validator.isValidToken,(req,res)=>{
 
 app.post("/post",userController.makePost);
 app.get("/getposts",userController.getAllPost);
+app.get("/getusers", userController.getAllusers);
 
 
 
@@ -70,8 +71,6 @@ app.use(fbPassport.session())
 app.get('/failed', (req,res) =>{
     res.send("Some error occured while login to google")
 })
-
-app.get('/getAllUser', userController.getUserName)
 
 app.get('/login/success', async (req,res) =>{
   if (req.user) {
@@ -146,7 +145,6 @@ app.get('/auth/facebook/callback',
     res.redirect('/success');
   });
 
-// app.get('/getUserName', userController.getUserName)
 
 
 module.exports = app;
