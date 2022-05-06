@@ -12,6 +12,8 @@ const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
+
+const CLIENT_URL = "http://localhost:3000/profile";
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
@@ -24,13 +26,6 @@ app.use(
     credentials: true,
   })
 );
-
-// let allowCrossDomain = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', "*");
-//   res.header('Access-Control-Allow-Headers', "*");
-//   next();
-// }
-// app.use(allowCrossDomain);
 
 app.get("/",(req,res)=>{
   res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
@@ -57,11 +52,15 @@ app.get("/users",validator.isValidToken,(req,res)=>{
   res.send("This is User")
 })
 
+app.post("/post",userController.makePost);
+app.get("/getposts",userController.getAllPost);
+
 
 
 app.use(cookieSession({
   name: 'session-name',
-  keys: ['key1', 'key2']
+  keys: ['Patreon'],
+  maxAge: 24 * 60 * 60 * 100 
 }))
 
 app.use(passport.initialize())
@@ -73,15 +72,8 @@ app.get('/failed', (req,res) =>{
 })
 
 app.get('/login/success', async (req,res) =>{
-
   if (req.user) {
-
-    console.log(req.user)
-    //let firstName = req.user.given_name
-   // let password = encryptedPassword
     let email = req.user.email
-    //let picture = req.user.picture
-
     const userDetail = await userModel.findOne({email})
      console.log(userDetail)
     if(userDetail){
@@ -95,38 +87,35 @@ app.get('/login/success', async (req,res) =>{
    
       res.status(200).json(
         {
+          status : 200,
           message:"Success Login",
-          token : JWTtoken
-
+          token : JWTtoken,
+          user: userDetail
         }
       )
 
     }
     else{
       let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
+      console.log(req.user);
       let userDetailObj = {
         name: req.user.given_name,
         email: req.user.email,
         password: encryptedPassword,
         profilePic: req.user._json.picture
-
       }
-      let response = await userModel.insertMany([userDetailObj])
+      await userModel.insertMany([userDetailObj])
       delete userDetailObj.password
    
       let JWTtoken = JWTService.GenerateToken(userDetailObj)
       res.status(200).json({
         message:"Registration Success",
-        token:JWTtoken
+        status : 200,
+        token : JWTtoken,
+        user: userDetail
       });
     }
 
-    // res.status(200).json({
-    //   success: true,
-    //   message: "successfull",
-    //   user: req.user,
-    //   //   cookies: req.cookies
-    // });
   }
 })
 
@@ -139,61 +128,9 @@ app.get('/google', passport.authenticate('google', {
 
 app.get('/google/callback',
     passport.authenticate('google', {
-      successRedirect: "http://localhost:3000/",
+      successRedirect: CLIENT_URL,
       failureRedirect: '/failed',
-    }),
-    
-     async function(req,res) {
-
-      
-        console.log(req.user)
-        //let firstName = req.user.given_name
-       // let password = encryptedPassword
-        let email = req.user.email
-        //let picture = req.user.picture
- 
-        const userDetail = await userModel.findOne({email})
- console.log(userDetail)
-        if(userDetail){
-         
-          let obj = {
-            firstName :userDetail.firstName,
-            email
-          }
-          
-          let JWTtoken = JWTService.GenerateToken(obj)
-       
-          res.status(200).json(
-            {
-              message:"Success Login",
-              token : JWTtoken
- 
-            }
-          )
- 
-        }
-        else{
-          let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
-          let userDetailObj = {
-            name: req.user.given_name,
-            email: req.user.email,
-            password: encryptedPassword,
-            profilePic: req.user._json.picture
- 
-          }
-          let response = await userModel.insertMany([userDetailObj])
-          delete userDetailObj.password
-       
-          let JWTtoken = JWTService.GenerateToken(userDetailObj)
-          res.status(200).json({
-            message:"Registration Success",
-            token:JWTtoken
-          });
-        }
-       
-     }
-     
-    
+    })   
 )
 
 
