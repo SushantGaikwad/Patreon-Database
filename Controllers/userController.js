@@ -3,7 +3,8 @@ const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
 const postModel = require("../Models/post");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { response } = require("express");
 
 
 async function SignUp(request,response, next){
@@ -128,8 +129,23 @@ async function Login(request,response, next){
    }
 
 
-function getAllusers(req,res){
-    res.send(req.query.q);
+async function getAllusers(req,res){
+    // res.send(req.query.q);
+    try {
+        let username = req.query.q
+        console.log(username)
+        // username = mongoos.name(username)
+        res = await UserModel.find({name:username})
+        console.log(res)
+        response.status(200).json({
+            Status: "success",
+            posts: res
+        })
+    } catch (error) {
+        response.status(400).json({
+            Status: "Error"
+        })
+    }
 }
 
 
