@@ -14,7 +14,7 @@ const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
 
-const CLIENT_URL = "http://localhost:3000/profile";
+const CLIENT_URL = "https://patreonclone-masai.netlify.app/profile";
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
@@ -143,6 +143,8 @@ app.get('/auth/facebook/callback',
   });
 
 
+
+  // app.put('/signOut', authController.signOut);
 
 
 module.exports = app;

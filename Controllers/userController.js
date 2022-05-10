@@ -5,7 +5,6 @@ const jwtService  = require("../CommonLib/jwtToken");
 const postModel = require("../Models/post");
 const mongoose = require("mongoose")
 
-
 async function SignUp(request,response, next){
     
  try {
@@ -20,6 +19,7 @@ async function SignUp(request,response, next){
                 })
         
     }else{
+
 
     let encryptPassword = EncryptDecrypt.encryptPassword(userDetails.password);
     userDetails.password = encryptPassword;
