@@ -14,7 +14,7 @@ const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
 
-const CLIENT_URL = "https://patreonclone-masai.netlify.app/profile";
+const CLIENT_URL = "https://patreon-team-13-masai.netlify.app/profile";
 app.use(express.json())
 
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
@@ -22,7 +22,7 @@ app.use(express.json())
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://patreon-team-13-masai.netlify.app/",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
