@@ -20,13 +20,7 @@ app.use(express.json())
 // app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
 
 
-app.use(
-  cors({
-    origin: "https://patreon-team-13-masai.netlify.app/",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.get("/",(req,res)=>{
   res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
