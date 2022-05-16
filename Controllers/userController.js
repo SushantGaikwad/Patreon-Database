@@ -23,7 +23,9 @@ async function SignUp(request,response, next){
 
     let encryptPassword = EncryptDecrypt.encryptPassword(userDetails.password);
     userDetails.password = encryptPassword;
+    if(!userDetails.profilePic){
     userDetails.profilePic = "https://c8.patreon.com/2/200/73417037";
+    }
     let UserResponse = await UserModel.insertMany([userDetails]);
     delete userDetails.password;
     let JWTtoken = jwtService.GenerateToken(userDetails);
