@@ -88,7 +88,7 @@ app.get('/login/success', async (req,res) =>{
 
     }
     else{
-      let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
+      let encryptedPassword = encryptDecrypt.encryptPassword("ThisisOurPassword1234")
       console.log(req.user);
       let userDetailObj = {
         name: req.user.given_name,

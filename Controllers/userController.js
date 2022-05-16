@@ -32,7 +32,7 @@ async function SignUp(request,response, next){
 
        response.status(200).json({
        status: 200,
-       message: "Registration Successfull",
+       Message: "Registration Successfull",
        token : JWTtoken
 })
 }
@@ -62,7 +62,7 @@ async function Login(request,response, next){
 
            response.status(200).json({
            status: 200,
-           status: "Login Successfull",
+           Message: "Login Successfull",
            token : JWTtoken,
            user: UserRes
        })
