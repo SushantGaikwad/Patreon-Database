@@ -2,6 +2,9 @@ const http = require("http");
 const app = require("./Routes/app");
 const PORT = process.env.PORT || 9999;
 const mongoConnection = require("./Database/mongodb");
+require("dotenv").config();
+
+console.log(process.env);
 
 http.createServer(app).listen(PORT,()=>{
     new mongoConnection();

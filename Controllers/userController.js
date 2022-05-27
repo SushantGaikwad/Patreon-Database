@@ -3,7 +3,9 @@ const TokenModel = require("../Models/token");
 const EncryptDecrypt = require("../CommonLib/encrypt-decrypt");
 const jwtService  = require("../CommonLib/jwtToken");
 const postModel = require("../Models/post");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+
+require("dotenv").config();
 
 async function SignUp(request,response, next){
     
@@ -24,7 +26,7 @@ async function SignUp(request,response, next){
     let encryptPassword = EncryptDecrypt.encryptPassword(userDetails.password);
     userDetails.password = encryptPassword;
     if(!userDetails.profilePic){
-    userDetails.profilePic = "https://c8.patreon.com/2/200/73417037";
+    userDetails.profilePic = process.env.Profile_Pic;
     }
     let UserResponse = await UserModel.insertMany([userDetails]);
     delete userDetails.password;
