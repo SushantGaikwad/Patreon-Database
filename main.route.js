@@ -12,11 +12,7 @@ const AuthRoute = require("./Routes/auth");
 app.use(express.json())
 app.use(cors());
 app.use(passport.initialize());
-// const sess = {
-//   secret: 'keyboard cat',
-//   cookie: {}
-// }
-// app.use(session(sess));
+
 
 app.use(cookieSession({
     name: 'session-name',
@@ -25,7 +21,9 @@ app.use(cookieSession({
   }));
 
 
-
+  app.get("/",(req,res)=>{
+    res.send("This is Dashboard");
+  })
 app.use("/user",UserRoute);
 app.use("/auth", AuthRoute);
 
