@@ -6,6 +6,7 @@ const postModel = require("../Models/post");
 const mongoose = require("mongoose");
 const { response } = require("express");
 
+require("dotenv").config();
 
 async function SignUp(request,response, next){
     
@@ -22,9 +23,12 @@ async function SignUp(request,response, next){
         
     }else{
 
+
     let encryptPassword = EncryptDecrypt.encryptPassword(userDetails.password);
     userDetails.password = encryptPassword;
-    userDetails.profilePic = "https://c8.patreon.com/2/200/73417037";
+    if(!userDetails.profilePic){
+    userDetails.profilePic = process.env.Profile_Pic;
+    }
     let UserResponse = await UserModel.insertMany([userDetails]);
     delete userDetails.password;
     let JWTtoken = jwtService.GenerateToken(userDetails);
@@ -63,7 +67,7 @@ async function Login(request,response, next){
 
            response.status(200).json({
            status: 200,
-           status: "Login Successfull",
+           message: "Login Successfull",
            token : JWTtoken,
            user: UserRes
        })
@@ -128,6 +132,13 @@ async function Login(request,response, next){
        
    }
 
+   async function search(req,res){
+        const search = req.query.q;
+        const response = await UserModel.find({name: {$regex : search, $options: '$i'}});
+        res.send(response);
+   }
+
+
 
 async function getAllusers(req,res){
     // res.send(req.query.q);
@@ -157,5 +168,6 @@ module.exports = {
     Login,
     makePost,
     getAllPost,
-    getAllusers
+    getAllusers,
+    search
 }

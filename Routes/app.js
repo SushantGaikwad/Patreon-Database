@@ -13,23 +13,17 @@ const JWTService = require('../CommonLib/jwtToken')
 const { body } = require("express-validator");
 const userModel = require('../Models/user.model');
 const app = express();
+require("dotenv").config();
 
-const CLIENT_URL = "http://localhost:3000/profile";
+
 app.use(express.json())
 
-// app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
 
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.get("/",(req,res)=>{
-  res.send('This is Dashboard' , '\n', '1. /SignUp','\n','2. /login'  );
+  res.send('This is Dashboard');
 })
 
 app.post(
@@ -48,13 +42,11 @@ app.post(
   userController.Login
 );
 
-app.get("/users",validator.isValidToken,(req,res)=>{
-  res.send("This is User")
-})
-
+app.get("/users",userController.search)
 app.post("/post",userController.makePost);
 app.get("/getposts",userController.getAllPost);
 app.get("/getusers", userController.getAllusers);
+
 
 
 
@@ -97,7 +89,7 @@ app.get('/login/success', async (req,res) =>{
 
     }
     else{
-      let encryptedPassword = encryptDecrypt.encryptPassword("sdgrjgoefuofwgj3254357u6575")
+      let encryptedPassword = encryptDecrypt.encryptPassword(process.env.Default_Password)
       console.log(req.user);
       let userDetailObj = {
         name: req.user.given_name,
@@ -129,7 +121,7 @@ app.get('/google', passport.authenticate('google', {
 
 app.get('/google/callback',
     passport.authenticate('google', {
-      successRedirect: CLIENT_URL,
+      successRedirect: process.env.CLIENT_URL,
       failureRedirect: '/failed',
     })   
 )
@@ -148,3 +140,5 @@ app.get('/auth/facebook/callback',
 
 
 module.exports = app;
+
+
